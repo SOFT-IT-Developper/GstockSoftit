@@ -1,0 +1,29 @@
+
+<div *ngIf="historiques">
+    <h2><span jhiTranslate="gStockSoftitApp.historiques.detail.title">Historiques</span> {{historiques.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="gStockSoftitApp.historiques.operation">Operation</span></dt>
+        <dd>
+            <span>{{historiques.operation}}</span>
+        </dd>
+        <dt><span jhiTranslate="gStockSoftitApp.historiques.date">Date</span></dt>
+        <dd>
+            <span>{{historiques.date | date:'medium'}}</span>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'historiques/'+ historiques.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

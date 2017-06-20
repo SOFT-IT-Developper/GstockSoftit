@@ -1,0 +1,95 @@
+<div>
+    <h2>
+        <span jhiTranslate="gStockSoftitApp.produits.home.title">Produits</span>
+        <button class="btn btn-primary float-right create-produits" [routerLink]="['/', { outlets: { popup: ['produits-new'] } }]">
+            <span class="fa fa-plus"></span>
+            <span class="hidden-sm-down"  jhiTranslate="gStockSoftitApp.produits.home.createLabel">
+            Create new Produits
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <div class="row">
+        <div class="col-sm-12">
+            <form name="searchForm" class="form-inline">
+                <div class="input-group w-100 mt-3">
+                    <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch" name="currentSearch" placeholder="{{ 'gStockSoftitApp.produits.home.search' | translate }}">
+                    <button class="input-group-addon btn btn-info" (click)="search(currentSearch)">
+                        <span class="fa fa-search"></span>
+                    </button>
+                    <button class="input-group-addon btn btn-danger" (click)="clear()" *ngIf="currentSearch">
+                        <span class="fa fa-trash-o"></span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <br/>
+    <div class="table-responsive" *ngIf="produits">
+        <table class="table table-striped">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
+            <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="name"><span jhiTranslate="gStockSoftitApp.produits.name">Name</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="emplacement"><span jhiTranslate="gStockSoftitApp.produits.emplacement">Emplacement</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="description"><span jhiTranslate="gStockSoftitApp.produits.description">Description</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="capture"><span jhiTranslate="gStockSoftitApp.produits.capture">Capture</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="categorie.name"><span jhiTranslate="gStockSoftitApp.produits.categorie">Categorie</span> <span class="fa fa-sort"></span></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let produits of produits ;trackBy: trackId">
+                <td><a [routerLink]="['../produits', produits.id ]">{{produits.id}}</a></td>
+                <td>{{produits.name}}</td>
+                <td>{{produits.emplacement}}</td>
+                <td>{{produits.description}}</td>
+                <td>
+                    <a *ngIf="produits.capture" (click)="openFile(produits.captureContentType, produits.capture)">
+                        <img [src]="'data:' + produits.captureContentType + ';base64,' + produits.capture" style="max-height: 30px;" alt="produits image"/>
+                    </a>
+                    <span *ngIf="produits.capture">{{produits.captureContentType}}, {{byteSize(produits.capture)}}</span>
+                </td>
+                <td>
+                    <div *ngIf="produits.categorie">
+                        <a [routerLink]="['../categorie', produits.categorie?.id ]" >{{produits.categorie?.name}}</a>
+                    </div>
+                </td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['../produits', produits.id ]"
+                                class="btn btn-info btn-sm">
+                            <span class="fa fa-eye"></span>
+                            <span class="hidden-md-down" jhiTranslate="entity.action.view">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'produits/'+ produits.id + '/edit'} }]"
+                                replaceUrl="true"
+                                class="btn btn-primary btn-sm">
+                            <span class="fa fa-pencil"></span>
+                            <span class="hidden-md-down" jhiTranslate="entity.action.edit">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'produits/'+ produits.id + '/delete'} }]"
+                                replaceUrl="true"
+                                class="btn btn-danger btn-sm">
+                            <span class="fa fa-remove"></span>
+                            <span class="hidden-md-down" jhiTranslate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+        <!-- Pager is not implemented yet, so this is normal pagination instead -->
+        <div *ngIf="produits && produits.length">
+            <div class="row justify-content-center">
+                <jhi-item-count [page]="page" [total]="queryCount" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+            </div>
+            <div class="row justify-content-center">
+                <ngb-pagination [collectionSize]="totalItems" [(page)]="page"  (pageChange)="loadPage(page)"></ngb-pagination>
+            </div>
+        </div>
+</div>

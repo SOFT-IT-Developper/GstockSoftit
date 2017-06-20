@@ -1,0 +1,20 @@
+{
+    "fluentMethods": true,
+    "relationships": [],
+    "fields": [
+        {
+            "fieldName": "operation",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "date",
+            "fieldType": "ZonedDateTime"
+        }
+    ],
+    "changelogDate": "20170620083621",
+    "javadoc": "Entity Historiques",
+    "entityTableName": "historiques",
+    "dto": "no",
+    "pagination": "no",
+    "service": "serviceClass"
+}

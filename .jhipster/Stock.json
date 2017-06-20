@@ -1,0 +1,32 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipType": "one-to-one",
+            "relationshipName": "produit",
+            "otherEntityName": "produits",
+            "otherEntityField": "id",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "stock"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "quantite",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "description",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "date",
+            "fieldType": "ZonedDateTime"
+        }
+    ],
+    "changelogDate": "20170620083620",
+    "entityTableName": "stock",
+    "dto": "no",
+    "pagination": "pager",
+    "service": "serviceClass"
+}

@@ -1,0 +1,38 @@
+/*
+ * This is an example model
+ */
+entity Categorie {
+	name String required,
+	description String
+}
+
+entity Produits {
+	name String required,
+    emplacement String,
+	description String ,
+	capture ImageBlob
+}
+
+entity Stock {
+	quantite BigDecimal,
+	description String,
+	date ZonedDateTime
+}
+
+/**
+ * Entity Historiques
+ */
+entity Historiques {
+	operation String,//type operation
+	date ZonedDateTime
+}
+relationship OneToOne{
+	Produits{stock} to Stock{produit}
+}
+
+relationship OneToMany {
+	Categorie{produit} to Produits{categorie(name)}
+}
+
+paginate Categorie, Produit, Stock with pager
+service * with serviceClass except User

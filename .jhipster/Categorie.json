@@ -1,0 +1,30 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "produit",
+            "otherEntityName": "produits",
+            "otherEntityRelationshipName": "categorie"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "name",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "description",
+            "fieldType": "String"
+        }
+    ],
+    "changelogDate": "20170620083357",
+    "javadoc": "This is an example model",
+    "entityTableName": "categorie",
+    "dto": "no",
+    "pagination": "pager",
+    "service": "serviceClass"
+}

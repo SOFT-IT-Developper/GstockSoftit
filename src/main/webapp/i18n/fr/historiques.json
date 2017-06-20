@@ -1,0 +1,23 @@
+{
+    "gStockSoftitApp": {
+        "historiques" : {
+            "home": {
+                "title": "Historiques",
+                "createLabel": "Créer un nouveau Historiques",
+                "createOrEditLabel": "Créer ou éditer un Historiques",
+                "search": "Recherche pour Historiques"
+            },
+            "created": "Un nouveau Historiques a été créé avec l'identifiant {{ param }}",
+            "updated": "Le Historiques avec l'identifiant {{ param }} a été mis à jour",
+            "deleted": "Le Historiques avec l'identifiant {{ param }} a été supprimé",
+            "delete": {
+                "question": "Etes-vous certain de vouloir supprimer le Historiques {{ id }} ?"
+            },
+            "detail": {
+                "title": "Historiques"
+            },
+            "operation": "Operation",
+            "date": "Date"
+        }
+    }
+}
