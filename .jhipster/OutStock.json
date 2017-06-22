@@ -1,0 +1,30 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "produit",
+            "otherEntityName": "produits",
+            "otherEntityField": "name"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "quantite",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "date",
+            "fieldType": "LocalDate"
+        },
+        {
+            "fieldName": "cause",
+            "fieldType": "String"
+        }
+    ],
+    "changelogDate": "20170622172537",
+    "entityTableName": "out_stock",
+    "dto": "no",
+    "pagination": "no",
+    "service": "serviceClass"
+}

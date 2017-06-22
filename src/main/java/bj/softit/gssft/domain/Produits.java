@@ -8,6 +8,8 @@ import org.springframework.data.elasticsearch.annotations.Document;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Objects;
 
 /**
@@ -41,6 +43,11 @@ public class Produits implements Serializable {
 
     @Column(name = "capture_content_type")
     private String captureContentType;
+
+    @OneToMany(mappedBy = "produit")
+    @JsonIgnore
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<OutStock> stocks = new HashSet<>();
 
     @OneToOne(mappedBy = "produit")
     @JsonIgnore
@@ -120,6 +127,31 @@ public class Produits implements Serializable {
 
     public void setCaptureContentType(String captureContentType) {
         this.captureContentType = captureContentType;
+    }
+
+    public Set<OutStock> getStocks() {
+        return stocks;
+    }
+
+    public Produits stocks(Set<OutStock> outStocks) {
+        this.stocks = outStocks;
+        return this;
+    }
+
+    public Produits addStock(OutStock outStock) {
+        this.stocks.add(outStock);
+        outStock.setProduit(this);
+        return this;
+    }
+
+    public Produits removeStock(OutStock outStock) {
+        this.stocks.remove(outStock);
+        outStock.setProduit(null);
+        return this;
+    }
+
+    public void setStocks(Set<OutStock> outStocks) {
+        this.stocks = outStocks;
     }
 
     public Stock getStock() {

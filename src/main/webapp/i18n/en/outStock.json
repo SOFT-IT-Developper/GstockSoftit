@@ -1,0 +1,25 @@
+{
+    "gStockSoftitApp": {
+        "outStock" : {
+            "home": {
+                "title": "Out Stocks",
+                "createLabel": "Create a new Out Stock",
+                "createOrEditLabel": "Create or edit a Out Stock",
+                "search": "Search for Out Stock"
+            },
+            "created": "A new Out Stock is created with identifier {{ param }}",
+            "updated": "A Out Stock is updated with identifier {{ param }}",
+            "deleted": "A Out Stock is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Out Stock {{ id }}?"
+            },
+            "detail": {
+                "title": "Out Stock"
+            },
+            "quantite": "Quantite",
+            "date": "Date",
+            "cause": "Cause",
+            "produit": "Produit"
+        }
+    }
+}

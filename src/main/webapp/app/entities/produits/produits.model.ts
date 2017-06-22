@@ -1,3 +1,4 @@
+import { OutStock } from '../out-stock';
 import { Stock } from '../stock';
 import { Categorie } from '../categorie';
 export class Produits {

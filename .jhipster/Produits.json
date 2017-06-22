@@ -2,6 +2,12 @@
     "fluentMethods": true,
     "relationships": [
         {
+            "relationshipType": "one-to-many",
+            "relationshipName": "stock",
+            "otherEntityName": "outStock",
+            "otherEntityRelationshipName": "produit"
+        },
+        {
             "relationshipType": "one-to-one",
             "relationshipName": "stock",
             "otherEntityName": "stock",

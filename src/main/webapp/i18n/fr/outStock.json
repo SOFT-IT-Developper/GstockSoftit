@@ -1,0 +1,25 @@
+{
+    "gStockSoftitApp": {
+        "outStock" : {
+            "home": {
+                "title": "OutStocks",
+                "createLabel": "Créer un nouveau Out Stock",
+                "createOrEditLabel": "Créer ou éditer un Out Stock",
+                "search": "Recherche pour Out Stock"
+            },
+            "created": "Un nouveau Out Stock a été créé avec l'identifiant {{ param }}",
+            "updated": "Le Out Stock avec l'identifiant {{ param }} a été mis à jour",
+            "deleted": "Le Out Stock avec l'identifiant {{ param }} a été supprimé",
+            "delete": {
+                "question": "Etes-vous certain de vouloir supprimer le Out Stock {{ id }} ?"
+            },
+            "detail": {
+                "title": "Out Stock"
+            },
+            "quantite": "Quantite",
+            "date": "Date",
+            "cause": "Cause",
+            "produit": "Produit"
+        }
+    }
+}

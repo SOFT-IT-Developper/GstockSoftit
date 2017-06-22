@@ -21,6 +21,7 @@
             "description": "Description",
             "capture": "Capture",
             "stock": "Stock",
+            "stock": "Stock",
             "categorie": "Categorie"
         }
     }

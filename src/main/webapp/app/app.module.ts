@@ -23,7 +23,6 @@ import {
     ActiveMenuDirective,
     ErrorComponent
 } from './layouts';
-
 @NgModule({
     imports: [
         BrowserModule,
@@ -41,7 +40,7 @@ import {
         ErrorComponent,
         PageRibbonComponent,
         ActiveMenuDirective,
-        FooterComponent
+        FooterComponent,
     ],
     providers: [
         ProfileService,

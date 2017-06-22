@@ -11,6 +11,7 @@
                 "produits": "Produits",
                 "stock": "Stock",
                 "historiques": "Historiques",
+                "outStock": "Out Stock",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {
