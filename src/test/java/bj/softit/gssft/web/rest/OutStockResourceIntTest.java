@@ -4,6 +4,7 @@ import bj.softit.gssft.GStockSoftitApp;
 
 import bj.softit.gssft.domain.OutStock;
 import bj.softit.gssft.repository.OutStockRepository;
+import bj.softit.gssft.service.HistoriquesService;
 import bj.softit.gssft.service.OutStockService;
 import bj.softit.gssft.repository.search.OutStockSearchRepository;
 import bj.softit.gssft.web.rest.errors.ExceptionTranslator;
@@ -53,7 +54,8 @@ public class OutStockResourceIntTest {
 
     @Autowired
     private OutStockRepository outStockRepository;
-
+    @Autowired
+    private  HistoriquesService historiquesService;
     @Autowired
     private OutStockService outStockService;
 
@@ -79,7 +81,7 @@ public class OutStockResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        OutStockResource outStockResource = new OutStockResource(outStockService);
+        OutStockResource outStockResource = new OutStockResource(outStockService, historiquesService);
         this.restOutStockMockMvc = MockMvcBuilders.standaloneSetup(outStockResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)

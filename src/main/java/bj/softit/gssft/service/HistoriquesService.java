@@ -1,13 +1,17 @@
 package bj.softit.gssft.service;
 
 import bj.softit.gssft.domain.Historiques;
+import bj.softit.gssft.domain.OutStock;
+import bj.softit.gssft.domain.Produits;
 import bj.softit.gssft.repository.HistoriquesRepository;
+import bj.softit.gssft.repository.ProduitsRepository;
 import bj.softit.gssft.repository.search.HistoriquesSearchRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -24,11 +28,13 @@ public class HistoriquesService {
     private final Logger log = LoggerFactory.getLogger(HistoriquesService.class);
 
     private final HistoriquesRepository historiquesRepository;
+    private final ProduitsRepository produitsRepository;
 
     private final HistoriquesSearchRepository historiquesSearchRepository;
 
-    public HistoriquesService(HistoriquesRepository historiquesRepository, HistoriquesSearchRepository historiquesSearchRepository) {
+    public HistoriquesService(HistoriquesRepository historiquesRepository, ProduitsRepository produitsRepository, HistoriquesSearchRepository historiquesSearchRepository) {
         this.historiquesRepository = historiquesRepository;
+        this.produitsRepository = produitsRepository;
         this.historiquesSearchRepository = historiquesSearchRepository;
     }
 
@@ -91,5 +97,13 @@ public class HistoriquesService {
         return StreamSupport
             .stream(historiquesSearchRepository.search(queryStringQuery(query)).spliterator(), false)
             .collect(Collectors.toList());
+    }
+
+    public void add(OutStock outStock) {
+        historiquesRepository.save(new Historiques().operation("Sortir de stock")
+        .date(null));
+        Produits produits=produitsRepository.findOne(outStock.getProduit().getId());
+        //BigDecimal a= outStock.getQuantite().negate();
+        produits.getStock().setQuantite(produits.getStock().getQuantite().add(outStock.getQuantite().negate()));
     }
 }
