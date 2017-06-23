@@ -9,6 +9,8 @@ import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 import { Historiques } from './historiques.model';
 import { HistoriquesPopupService } from './historiques-popup.service';
 import { HistoriquesService } from './historiques.service';
+import { User, UserService } from '../../shared';
+import { ResponseWrapper } from '../../shared';
 
 @Component({
     selector: 'jhi-historiques-dialog',
@@ -20,10 +22,13 @@ export class HistoriquesDialogComponent implements OnInit {
     authorities: any[];
     isSaving: boolean;
 
+    users: User[];
+
     constructor(
         public activeModal: NgbActiveModal,
         private alertService: JhiAlertService,
         private historiquesService: HistoriquesService,
+        private userService: UserService,
         private eventManager: JhiEventManager
     ) {
     }
@@ -31,6 +36,8 @@ export class HistoriquesDialogComponent implements OnInit {
     ngOnInit() {
         this.isSaving = false;
         this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
+        this.userService.query()
+            .subscribe((res: ResponseWrapper) => { this.users = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
     }
 
     clear() {
@@ -76,6 +83,10 @@ export class HistoriquesDialogComponent implements OnInit {
 
     private onError(error) {
         this.alertService.error(error.message, null, null);
+    }
+
+    trackUserById(index: number, item: User) {
+        return item.id;
     }
 }
 

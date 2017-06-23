@@ -12,16 +12,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.beans.Beans;
-import java.math.BigDecimal;
-import java.time.Instant;
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
-
+import org.springframework.data.domain.Sort;
 /**
  * Service Implementation for managing Historiques.
  */
@@ -33,13 +30,14 @@ public class HistoriquesService {
 
     private final HistoriquesRepository historiquesRepository;
     private final ProduitsRepository produitsRepository;
-
     private final HistoriquesSearchRepository historiquesSearchRepository;
+    private final UserService userService;
 
-    public HistoriquesService(HistoriquesRepository historiquesRepository, ProduitsRepository produitsRepository, HistoriquesSearchRepository historiquesSearchRepository) {
+    public HistoriquesService(HistoriquesRepository historiquesRepository, ProduitsRepository produitsRepository, HistoriquesSearchRepository historiquesSearchRepository, UserService userService) {
         this.historiquesRepository = historiquesRepository;
         this.produitsRepository = produitsRepository;
         this.historiquesSearchRepository = historiquesSearchRepository;
+        this.userService = userService;
     }
 
     /**
@@ -50,27 +48,29 @@ public class HistoriquesService {
      */
     public Historiques save(Historiques historiques) {
         log.debug("Request to save Historiques : {}", historiques);
-        Historiques result = historiquesRepository.save(historiques);
+        Historiques result = historiquesRepository.save(historiques.user(userService.getUserWithAuthorities()));
         historiquesSearchRepository.save(result);
         return result;
     }
 
     /**
-     *  Get all the historiques.
+     * Get all the historiques.
      *
-     *  @return the list of entities
+     * @return the list of entities
      */
     @Transactional(readOnly = true)
     public List<Historiques> findAll() {
         log.debug("Request to get all Historiques");
-        return historiquesRepository.findAll();
+        return historiquesRepository.findAll(sortByIdAsc());
     }
-
+    private Sort sortByIdAsc() {
+        return new Sort(Sort.Direction.ASC, "operation");
+    }
     /**
-     *  Get one historiques by id.
+     * Get one historiques by id.
      *
-     *  @param id the id of the entity
-     *  @return the entity
+     * @param id the id of the entity
+     * @return the entity
      */
     @Transactional(readOnly = true)
     public Historiques findOne(Long id) {
@@ -78,10 +78,11 @@ public class HistoriquesService {
         return historiquesRepository.findOne(id);
     }
 
+
     /**
-     *  Delete the  historiques by id.
+     * Delete the  historiques by id.
      *
-     *  @param id the id of the entity
+     * @param id the id of the entity
      */
     public void delete(Long id) {
         log.debug("Request to delete Historiques : {}", id);
@@ -92,8 +93,8 @@ public class HistoriquesService {
     /**
      * Search for the historiques corresponding to the query.
      *
-     *  @param query the query of the search
-     *  @return the list of entities
+     * @param query the query of the search
+     * @return the list of entities
      */
     @Transactional(readOnly = true)
     public List<Historiques> search(String query) {
@@ -104,22 +105,25 @@ public class HistoriquesService {
     }
 
     public void addHistOut(OutStock outStock) {
-        Instant instant = Instant.now();
+
         historiquesRepository.save(new Historiques().operation("Sortir de stock")
-        .date(ZonedDateTime.now()));
-        Produits produits=produitsRepository.findOne(outStock.getProduit().getId());
+            .date(ZonedDateTime.now()).user(userService.getUserWithAuthorities()));
+        Produits produits = produitsRepository.findOne(outStock.getProduit().getId());
         //BigDecimal a= outStock.getQuantite().negate();
         produits.getStock().setQuantite(produits.getStock().getQuantite().add(outStock.getQuantite().negate()));
     }
 
     public void addHistEnter(Stock stock) {
-        historiquesRepository.save( new Historiques().date(ZonedDateTime.now()).operation("Entrer de stock"));
-        Produits produits=produitsRepository.findOne(stock.getProduit().getId());
+        historiquesRepository.save(new Historiques()
+            .date(ZonedDateTime.now())
+            .operation("Entrer de stock")
+            .user(userService.getUserWithAuthorities()));
+        Produits produits = produitsRepository.findOne(stock.getProduit().getId());
         //BigDecimal a= outStock.getQuantite().negate();
-        produits.getStock().setQuantite(produits.getStock().getQuantite().add(stock.getQuantite()));
+       // produits.getStock().setQuantite(produits.getStock().getQuantite().add(stock.getQuantite()));
     }
 
     public void addHist(String s) {
-        historiquesRepository.save( new Historiques().date(ZonedDateTime.now()).operation(s));
+        historiquesRepository.save(new Historiques().date(ZonedDateTime.now()).operation(s).user(userService.getUserWithAuthorities()));
     }
 }

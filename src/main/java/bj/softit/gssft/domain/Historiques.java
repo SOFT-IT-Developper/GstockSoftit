@@ -32,6 +32,9 @@ public class Historiques implements Serializable {
     @Column(name = "jhi_date")
     private ZonedDateTime date;
 
+    @ManyToOne
+    private User user;
+
     public Long getId() {
         return id;
     }
@@ -64,6 +67,19 @@ public class Historiques implements Serializable {
 
     public void setDate(ZonedDateTime date) {
         this.date = date;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public Historiques user(User user) {
+        this.user = user;
+        return this;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override

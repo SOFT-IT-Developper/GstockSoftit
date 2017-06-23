@@ -1,6 +1,15 @@
 {
     "fluentMethods": true,
-    "relationships": [],
+    "relationships": [
+        {
+            "relationshipName": "user",
+            "otherEntityName": "user",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "login",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "historiques"
+        }
+    ],
     "fields": [
         {
             "fieldName": "operation",
@@ -12,9 +21,9 @@
         }
     ],
     "changelogDate": "20170620083621",
-    "javadoc": "Entity Historiques",
-    "entityTableName": "historiques",
     "dto": "no",
+    "service": "serviceClass",
+    "entityTableName": "historiques",
     "pagination": "no",
-    "service": "serviceClass"
+    "javadoc": "Entity Historiques"
 }

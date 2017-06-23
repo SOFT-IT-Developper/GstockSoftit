@@ -17,7 +17,8 @@
                 "title": "Historiques"
             },
             "operation": "Operation",
-            "date": "Date"
+            "date": "Date",
+            "user": "User"
         }
     }
 }
