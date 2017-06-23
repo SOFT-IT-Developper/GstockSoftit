@@ -19,7 +19,7 @@ entity Stock {
 	date ZonedDateTime
 }
 entity OutStock{
-quantite BigDecimal,
+quantite BigDecimal required,
 date LocalDate,
 cause String
 }
@@ -32,14 +32,14 @@ entity Historiques {
 	date ZonedDateTime
 }
 relationship OneToOne{
-	  Stock{produit} to Produits{stock}
+	  Stock{produit} to Produits{stock(name) required}
 }
 
 relationship OneToMany {
-	Categorie{produit} to Produits{categorie(name)}
+	Categorie{produit} to Produits{categorie(name) required}
 }
 relationship OneToMany {
-	Produits{stock} to OutStock{produit(name)}
+	Produits{stock} to OutStock{produit(name) required}
 }
 
 paginate Categorie, Produits, Stock with pager

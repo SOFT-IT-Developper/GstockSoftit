@@ -9,6 +9,7 @@
         },
         {
             "relationshipType": "one-to-one",
+            "relationshipValidateRules": "required",
             "relationshipName": "stock",
             "otherEntityName": "stock",
             "ownerSide": false,
@@ -16,6 +17,7 @@
         },
         {
             "relationshipType": "many-to-one",
+            "relationshipValidateRules": "required",
             "relationshipName": "categorie",
             "otherEntityName": "categorie",
             "otherEntityField": "name"

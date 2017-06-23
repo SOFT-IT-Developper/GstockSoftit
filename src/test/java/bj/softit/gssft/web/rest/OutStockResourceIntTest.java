@@ -3,6 +3,7 @@ package bj.softit.gssft.web.rest;
 import bj.softit.gssft.GStockSoftitApp;
 
 import bj.softit.gssft.domain.OutStock;
+import bj.softit.gssft.domain.Produits;
 import bj.softit.gssft.repository.OutStockRepository;
 import bj.softit.gssft.service.HistoriquesService;
 import bj.softit.gssft.service.OutStockService;
@@ -54,10 +55,12 @@ public class OutStockResourceIntTest {
 
     @Autowired
     private OutStockRepository outStockRepository;
-    @Autowired
-    private  HistoriquesService historiquesService;
+
     @Autowired
     private OutStockService outStockService;
+
+    @Autowired
+    private HistoriquesService historiquesService;
 
     @Autowired
     private OutStockSearchRepository outStockSearchRepository;
@@ -99,6 +102,11 @@ public class OutStockResourceIntTest {
             .quantite(DEFAULT_QUANTITE)
             .date(DEFAULT_DATE)
             .cause(DEFAULT_CAUSE);
+        // Add required entity
+        Produits produit = ProduitsResourceIntTest.createEntity(em);
+        em.persist(produit);
+        em.flush();
+        outStock.setProduit(produit);
         return outStock;
     }
 
@@ -149,6 +157,24 @@ public class OutStockResourceIntTest {
         // Validate the Alice in the database
         List<OutStock> outStockList = outStockRepository.findAll();
         assertThat(outStockList).hasSize(databaseSizeBeforeCreate);
+    }
+
+    @Test
+    @Transactional
+    public void checkQuantiteIsRequired() throws Exception {
+        int databaseSizeBeforeTest = outStockRepository.findAll().size();
+        // set the field null
+        outStock.setQuantite(null);
+
+        // Create the OutStock, which fails.
+
+        restOutStockMockMvc.perform(post("/api/out-stocks")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(outStock)))
+            .andExpect(status().isBadRequest());
+
+        List<OutStock> outStockList = outStockRepository.findAll();
+        assertThat(outStockList).hasSize(databaseSizeBeforeTest);
     }
 
     @Test

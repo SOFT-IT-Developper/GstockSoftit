@@ -1,5 +1,6 @@
 package bj.softit.gssft.web.rest;
 
+import bj.softit.gssft.service.HistoriquesService;
 import com.codahale.metrics.annotation.Timed;
 import bj.softit.gssft.domain.Stock;
 import bj.softit.gssft.service.StockService;
@@ -21,9 +22,6 @@ import java.net.URISyntaxException;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.StreamSupport;
-
-import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * REST controller for managing Stock.
@@ -37,9 +35,11 @@ public class StockResource {
     private static final String ENTITY_NAME = "stock";
 
     private final StockService stockService;
+    private final HistoriquesService historiquesService;
 
-    public StockResource(StockService stockService) {
+    public StockResource(StockService stockService, HistoriquesService historiquesService) {
         this.stockService = stockService;
+        this.historiquesService = historiquesService;
     }
 
     /**
@@ -54,8 +54,12 @@ public class StockResource {
     public ResponseEntity<Stock> createStock(@RequestBody Stock stock) throws URISyntaxException {
         log.debug("REST request to save Stock : {}", stock);
         if (stock.getId() != null) {
-            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new stock cannot already have an ID")).body(null);
+
+           return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new stock cannot already have an ID")).body(null);
         }
+
+       // historiquesService.addHistEnter(stock);
+        historiquesService.addHistEnter(stock);
         Stock result = stockService.save(stock);
         return ResponseEntity.created(new URI("/api/stocks/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
@@ -78,6 +82,7 @@ public class StockResource {
         if (stock.getId() == null) {
             return createStock(stock);
         }
+        historiquesService.addHist("Mise ajour stock");
         Stock result = stockService.save(stock);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, stock.getId().toString()))

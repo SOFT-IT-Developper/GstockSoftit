@@ -4,6 +4,7 @@ import bj.softit.gssft.GStockSoftitApp;
 
 import bj.softit.gssft.domain.Stock;
 import bj.softit.gssft.repository.StockRepository;
+import bj.softit.gssft.service.HistoriquesService;
 import bj.softit.gssft.service.StockService;
 import bj.softit.gssft.repository.search.StockSearchRepository;
 import bj.softit.gssft.web.rest.errors.ExceptionTranslator;
@@ -62,6 +63,8 @@ public class StockResourceIntTest {
 
     @Autowired
     private StockSearchRepository stockSearchRepository;
+    @Autowired
+    private HistoriquesService historiquesService;
 
     @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
@@ -82,7 +85,7 @@ public class StockResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        StockResource stockResource = new StockResource(stockService);
+        StockResource stockResource = new StockResource(stockService, historiquesService);
         this.restStockMockMvc = MockMvcBuilders.standaloneSetup(stockResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)

@@ -5,6 +5,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.data.elasticsearch.annotations.Document;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -25,7 +26,8 @@ public class OutStock implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "quantite", precision=10, scale=2)
+    @NotNull
+    @Column(name = "quantite", precision=10, scale=2, nullable = false)
     private BigDecimal quantite;
 
     @Column(name = "jhi_date")
@@ -34,7 +36,8 @@ public class OutStock implements Serializable {
     @Column(name = "cause")
     private String cause;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
+    @NotNull
     private Produits produit;
 
     public Long getId() {

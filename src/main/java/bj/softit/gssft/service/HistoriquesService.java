@@ -3,6 +3,7 @@ package bj.softit.gssft.service;
 import bj.softit.gssft.domain.Historiques;
 import bj.softit.gssft.domain.OutStock;
 import bj.softit.gssft.domain.Produits;
+import bj.softit.gssft.domain.Stock;
 import bj.softit.gssft.repository.HistoriquesRepository;
 import bj.softit.gssft.repository.ProduitsRepository;
 import bj.softit.gssft.repository.search.HistoriquesSearchRepository;
@@ -11,7 +12,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.beans.Beans;
 import java.math.BigDecimal;
+import java.time.Instant;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -99,11 +103,23 @@ public class HistoriquesService {
             .collect(Collectors.toList());
     }
 
-    public void add(OutStock outStock) {
+    public void addHistOut(OutStock outStock) {
+        Instant instant = Instant.now();
         historiquesRepository.save(new Historiques().operation("Sortir de stock")
-        .date(null));
+        .date(ZonedDateTime.now()));
         Produits produits=produitsRepository.findOne(outStock.getProduit().getId());
         //BigDecimal a= outStock.getQuantite().negate();
         produits.getStock().setQuantite(produits.getStock().getQuantite().add(outStock.getQuantite().negate()));
+    }
+
+    public void addHistEnter(Stock stock) {
+        historiquesRepository.save( new Historiques().date(ZonedDateTime.now()).operation("Entrer de stock"));
+        Produits produits=produitsRepository.findOne(stock.getProduit().getId());
+        //BigDecimal a= outStock.getQuantite().negate();
+        produits.getStock().setQuantite(produits.getStock().getQuantite().add(stock.getQuantite()));
+    }
+
+    public void addHist(String s) {
+        historiquesRepository.save( new Historiques().date(ZonedDateTime.now()).operation(s));
     }
 }

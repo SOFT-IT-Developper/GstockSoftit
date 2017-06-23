@@ -3,6 +3,8 @@ package bj.softit.gssft.web.rest;
 import bj.softit.gssft.GStockSoftitApp;
 
 import bj.softit.gssft.domain.Produits;
+import bj.softit.gssft.domain.Stock;
+import bj.softit.gssft.domain.Categorie;
 import bj.softit.gssft.repository.ProduitsRepository;
 import bj.softit.gssft.service.ProduitsService;
 import bj.softit.gssft.repository.search.ProduitsSearchRepository;
@@ -102,6 +104,16 @@ public class ProduitsResourceIntTest {
             .description(DEFAULT_DESCRIPTION)
             .capture(DEFAULT_CAPTURE)
             .captureContentType(DEFAULT_CAPTURE_CONTENT_TYPE);
+        // Add required entity
+        Stock stock = StockResourceIntTest.createEntity(em);
+        em.persist(stock);
+        em.flush();
+        produits.setStock(stock);
+        // Add required entity
+        Categorie categorie = CategorieResourceIntTest.createEntity(em);
+        em.persist(categorie);
+        em.flush();
+        produits.setCategorie(categorie);
         return produits;
     }
 

@@ -7,7 +7,7 @@
             "otherEntityName": "produits",
             "otherEntityField": "id",
             "ownerSide": true,
-            "otherEntityRelationshipName": "stock"
+            "otherEntityRelationshipName": "stock(name)"
         }
     ],
     "fields": [

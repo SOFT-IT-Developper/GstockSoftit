@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -29,8 +30,7 @@ public class OutStockResource {
     private static final String ENTITY_NAME = "outStock";
 
     private final OutStockService outStockService;
-
-    private final  HistoriquesService historiquesService;
+    private final HistoriquesService historiquesService;
 
     public OutStockResource(OutStockService outStockService, HistoriquesService historiquesService) {
         this.outStockService = outStockService;
@@ -46,14 +46,13 @@ public class OutStockResource {
      */
     @PostMapping("/out-stocks")
     @Timed
-    public ResponseEntity<OutStock> createOutStock(@RequestBody OutStock outStock) throws URISyntaxException {
+    public ResponseEntity<OutStock> createOutStock(@Valid @RequestBody OutStock outStock) throws URISyntaxException {
         log.debug("REST request to save OutStock : {}", outStock);
         if (outStock.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new outStock cannot already have an ID")).body(null);
         }
-        historiquesService.add(outStock);
+        historiquesService.addHistOut(outStock);
         OutStock result = outStockService.save(outStock);
-
         return ResponseEntity.created(new URI("/api/out-stocks/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -70,7 +69,7 @@ public class OutStockResource {
      */
     @PutMapping("/out-stocks")
     @Timed
-    public ResponseEntity<OutStock> updateOutStock(@RequestBody OutStock outStock) throws URISyntaxException {
+    public ResponseEntity<OutStock> updateOutStock(@Valid @RequestBody OutStock outStock) throws URISyntaxException {
         log.debug("REST request to update OutStock : {}", outStock);
         if (outStock.getId() == null) {
             return createOutStock(outStock);

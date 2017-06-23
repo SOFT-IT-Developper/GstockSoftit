@@ -51,12 +51,23 @@
                 [(ngModel)]="produits.captureContentType" />
         </div>
 
+        <div [hidden]="!(editForm.controls.stock?.dirty && editForm.controls.stock?.invalid)">
+            <small class="form-text text-danger"
+                [hidden]="!editForm.controls.stock?.errors?.required" jhiTranslate="entity.validation.required">
+                This field is required.
+            </small>
+        </div>
         <div class="form-group">
             <label jhiTranslate="gStockSoftitApp.produits.categorie" for="field_categorie">Categorie</label>
-            <select class="form-control" id="field_categorie" name="categorie" [(ngModel)]="produits.categorie" >
-                <option [ngValue]="null"></option>
+            <select class="form-control" id="field_categorie" name="categorie" [(ngModel)]="produits.categorie"  required>
                 <option [ngValue]="categorieOption.id === produits.categorie?.id ? produits.categorie : categorieOption" *ngFor="let categorieOption of categories; trackBy: trackCategorieById">{{categorieOption.name}}</option>
             </select>
+        </div>
+        <div [hidden]="!(editForm.controls.categorie?.dirty && editForm.controls.categorie?.invalid)">
+            <small class="form-text text-danger"
+                [hidden]="!editForm.controls.categorie?.errors?.required" jhiTranslate="entity.validation.required">
+                This field is required.
+            </small>
         </div>
     </div>
     <div class="modal-footer">

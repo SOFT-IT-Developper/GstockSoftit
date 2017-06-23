@@ -53,7 +53,8 @@ public class Produits implements Serializable {
     @JsonIgnore
     private Stock stock;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
+    @NotNull
     private Categorie categorie;
 
     public Long getId() {

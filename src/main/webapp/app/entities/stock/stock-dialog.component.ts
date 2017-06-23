@@ -37,7 +37,7 @@ export class StockDialogComponent implements OnInit {
         this.isSaving = false;
         this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
         this.produitsService
-            .query({filter: 'stock-is-null'})
+            .query({filter: 'stock(name)-is-null'})
             .subscribe((res: ResponseWrapper) => {
                 if (!this.stock.produit || !this.stock.produit.id) {
                     this.produits = res.json;
