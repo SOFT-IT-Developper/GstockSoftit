@@ -16,6 +16,7 @@ public interface HistoriquesRepository extends JpaRepository<Historiques,Long> {
     @Query("select historiques from Historiques historiques where historiques.user.login = ?#{principal.username}")
     List<Historiques> findByUserIsCurrentUser();
 
+    List<Historiques> findAllByOrderByDateDesc();
 
 
 

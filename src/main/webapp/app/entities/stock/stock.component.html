@@ -45,7 +45,7 @@
                 <td>{{stock.date | date:'medium'}}</td>
                 <td>
                     <div *ngIf="stock.produit">
-                        <a [routerLink]="['../produits', stock.produit?.id ]" >{{stock.produit?.id}}</a>
+                        <a [routerLink]="['../produits', stock.produit?.id ]" >{{stock.produit?.name}}</a>
                     </div>
                 </td>
                 <td class="text-right">

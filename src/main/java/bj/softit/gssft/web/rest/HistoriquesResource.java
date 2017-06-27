@@ -89,6 +89,13 @@ public class HistoriquesResource {
         log.debug("REST request to get all Historiques");
         return historiquesService.findAll();
     }
+    @GetMapping("/historiques/OrderByDate")
+    @Timed
+    public List<Historiques> getAllHistoriquesOrderByDate() {
+        log.debug("REST request to get all Historiques By Date ");
+        return historiquesService.findAllByOrderByDate();
+//        return null;
+    }
 
     /**
      * GET  /historiques/:id : get the "id" historiques.

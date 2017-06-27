@@ -61,7 +61,11 @@ public class HistoriquesService {
     @Transactional(readOnly = true)
     public List<Historiques> findAll() {
         log.debug("Request to get all Historiques");
-        return historiquesRepository.findAll(sortByIdAsc());
+        return historiquesRepository.findAllByOrderByDateDesc();
+    }
+    public List<Historiques> findAllByOrderByDate() {
+        log.debug("Request to get all Historiques");
+        return historiquesRepository.findAllByOrderByDateDesc();
     }
     private Sort sortByIdAsc() {
         return new Sort(Sort.Direction.ASC, "operation");
