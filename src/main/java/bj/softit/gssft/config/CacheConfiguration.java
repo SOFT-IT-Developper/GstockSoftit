@@ -40,13 +40,6 @@ public class CacheConfiguration {
             cm.createCache(bj.softit.gssft.domain.User.class.getName(), jcacheConfiguration);
             cm.createCache(bj.softit.gssft.domain.Authority.class.getName(), jcacheConfiguration);
             cm.createCache(bj.softit.gssft.domain.User.class.getName() + ".authorities", jcacheConfiguration);
-            cm.createCache(bj.softit.gssft.domain.Categorie.class.getName(), jcacheConfiguration);
-            cm.createCache(bj.softit.gssft.domain.Categorie.class.getName() + ".produits", jcacheConfiguration);
-            cm.createCache(bj.softit.gssft.domain.Produits.class.getName(), jcacheConfiguration);
-            cm.createCache(bj.softit.gssft.domain.Stock.class.getName(), jcacheConfiguration);
-            cm.createCache(bj.softit.gssft.domain.Historiques.class.getName(), jcacheConfiguration);
-            cm.createCache(bj.softit.gssft.domain.Produits.class.getName() + ".stocks", jcacheConfiguration);
-            cm.createCache(bj.softit.gssft.domain.OutStock.class.getName(), jcacheConfiguration);
             // jhipster-needle-ehcache-add-entry
         };
     }
